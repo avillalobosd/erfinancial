@@ -1,8 +1,9 @@
 
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {HashRouter as Router, Switch, Route} from "react-router-dom";
 import Navbar from './Views/NavBar/NavBar.js';
 import './index.css';
 import Home from './Views/Home/Home';
+import Blog from './Views/Blog/Blog';
 function App() {
   return (
 
@@ -17,8 +18,8 @@ function App() {
       {/* <div> */}
       
       <Route path="/" exact component={Home} />
-      {/* <Route path="/info" exact component={Info} /> 
-      <Route path="/usuario" exact component={Usuario} /> 
+      <Route path="/blog" exact component={Blog} /> 
+      {/* <Route path="/usuario" exact component={Usuario} /> 
       <Route path="/referidos" exact component={Referidos} /> 
       <Route path="/llaves" exact component={Llaves} /> 
       <Route path="/ayuda" exact component={Ayuda} />

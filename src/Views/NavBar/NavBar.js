@@ -92,11 +92,12 @@ export default function NavBar() {
           <Hidden only={['sm', 'xs']}>
             <Box>
               <Grid >
+              <Button component={Link} to="/blog" > <Typography className={classes.button}>Principal</Typography></Button>
                 <Button > <Typography className={classes.button}>¿Quíen soy?</Typography></Button>
                 <Button > <Typography className={classes.button}>Material Gratuito</Typography></Button>
-                <Button > <Typography className={classes.button}>Blog</Typography></Button>
+                <Button component={Link} to="/blog"> <Typography className={classes.button}>Blog</Typography></Button>
                 <Button > <Typography className={classes.button}>Cursos</Typography></Button>
-                <Button > <Typography className={classes.button}>Conferencias</Typography></Button>
+ 
               </Grid>
             </Box>
             <Box >
