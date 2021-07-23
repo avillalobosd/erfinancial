@@ -4,6 +4,7 @@ import Navbar from './Views/NavBar/NavBar.js';
 import './index.css';
 import Home from './Views/Home/Home';
 import Blog from './Views/Blog/Blog';
+import Noticias from './Views/Noticias/Noticias.js';
 function App() {
   return (
 
@@ -22,8 +23,8 @@ function App() {
       {/* <Route path="/usuario" exact component={Usuario} /> 
       <Route path="/referidos" exact component={Referidos} /> 
       <Route path="/llaves" exact component={Llaves} /> 
-      <Route path="/ayuda" exact component={Ayuda} />
-      <Route path="/ingresar/:cadena" exact component={Ingresar} /> */}
+      <Route path="/ayuda" exact component={Ayuda} /> */}
+      <Route path="/noticias/:cadena" exact component={Noticias} />
 
       {/* </div> */}
     </Switch> 

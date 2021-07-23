@@ -136,16 +136,40 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function BlogMiddle() {
+export default function NoticiasMiddle(props) {
   const classes = useStyles();
   const [entradas, setEntradas, entradasRef] = useState([])
+  const [noticias, setNoticia, noticiasRef] = useState([])
+  const [titulo, setTitulo, tituloRef] = useState("78");
+  const [autor, setAutor, autorRef] = useState("65");
+  const [texto, setTexto, textoRef] = useState("99");
+  const [fecha, setFecha, fechaRef] = useState("99");
+  const [tweet, setTweet, tweetRef] = useState("99");
+  const [abstract, setAbstract, abstractRef] = useState("99");
 
   useEffect(() => {
+    console.log(props.noticia)
     api.mostrar()
       .then(respuesta => {
-        setEntradas(respuesta.data)
-        console.log(entradasRef.current)
+        let data=respuesta.data
+        console.log(data)
+        // let ok=respuesta.data
+        setEntradas(data)
+        // console.log(entradasRef.current)
+        let obj = data.find(o => o.id === parseInt(props.noticia));
+        console.log(obj)
+        // // setOpen(true);
+        // // setId(id)
+        setFecha(obj.createdAt)
+        setTitulo(obj.titulo)
+        setAutor(obj.autor)
+        setTexto(obj.text)
+        setAbstract(obj.abstract)
+        setTweet(obj.tweet)
+        // console.log(obj)
       })
+
+    
   }, []);
 
 
@@ -156,8 +180,8 @@ export default function BlogMiddle() {
 
       {/* NOTICIAS PRINCIPALES  */}
       {/* NOTICIA 1  */}
-      {entradas[0] ? <Noticia fecha={entradas[0].createdAt} titulo={entradas[0].titulo} abastract={entradas[0].abstract} autor={entradas[0].autor}/> :"0"} 
-      {entradas[1] ? <Noticia  fecha={entradas[1].createdAt} titulo={entradas[1].titulo} abastract={entradas[1].abstract} autor={entradas[1].autor}/> :"0"} 
+      {autor!="65" ? <Noticia fecha={fecha} titulo={titulo} abastract={texto} autor={autor}/> :"0"} 
+      
      
      
 
