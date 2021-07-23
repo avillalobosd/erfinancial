@@ -41,7 +41,12 @@ app.get('/', function (req, res) {
 
 
 app.get('/ERapi/muestra', function (req, res) {
-  BD.findAll().then(users => {
+  BD.findAll({
+    order: [
+      ['createdAt', 'DESC'],
+      // ['name', 'ASC'],
+  ]
+  }).then(users => {
     res.json(users);
   });
 });
@@ -50,7 +55,10 @@ app.put("/ERapi/registrar", (request, res) => {
   BD.create({
     titulo: request.body.titulo,
     autor: request.body.autor,
-    text: request.body.texto
+    text: request.body.texto,
+    tweet: request.body.tweet,
+    abstract: request.body.abstract
+
   }).then(data => {
     res.json({
       status: "EXITO"
@@ -96,7 +104,7 @@ app.get('/ERapi/status/:id', function (req, res) {
 app.put('/ERapi/editarPost', function (req, res) {
   console.log(req.body)
   // res.json({status:"ERROR"})
-        BD.update({titulo:req.body.titulo, autor: req.body.autor, texto: req.body.autor}, {
+        BD.update({titulo:req.body.titulo, autor: req.body.autor, text: req.body.texto, abstract:req.body.abstract, tweet:req.body.tweet}, {
           where: {
             id: req.body.id
           }

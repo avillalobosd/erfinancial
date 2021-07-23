@@ -6,6 +6,8 @@ Posts.init({
     titulo: DataTypes.STRING,
     autor: DataTypes.STRING,
     post: DataTypes.STRING,
+    abstract: DataTypes.STRING,
+    tweet: DataTypes.STRING,
     imagen: DataTypes.STRING,
     status: {type:DataTypes.BOOLEAN, defaultValue: true},
 
