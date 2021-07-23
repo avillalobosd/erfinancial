@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react';
 import useState from 'react-usestateref'
 
-import { Button, 
-  TextField, 
-  Modal, 
-  Backdrop, 
+import {
+  Button,
+  TextField,
+  Modal,
+  Backdrop,
   Fade,
-  IconButton, 
-  TableContainer, 
-  Paper, 
-  Table, 
-  TableHead, 
-  TableCell, 
-  TableRow, 
-  TableBody, 
-  Switch } from '@material-ui/core/';
+  IconButton,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableCell,
+  TableRow,
+  TableBody,
+  Switch
+} from '@material-ui/core/';
 
 import EditIcon from '@material-ui/icons/Edit';
 import Container from '@material-ui/core/Container';
@@ -83,7 +85,7 @@ const useStyles = makeStyles({
     backgroundColor: "white",
     border: '3px solid #999',
     // boxShadow: "10",
-    padding:15,
+    padding: 15,
   },
 });
 
@@ -111,6 +113,8 @@ export default function Entradas() {
   const [titulo, setTitulo, tituloRef] = useState("78");
   const [autor, setAutor, autorRef] = useState("65");
   const [texto, setTexto, textoRef] = useState("99");
+  const [tweet, setTweet, tweetRef] = useState("99");
+  const [abstract, setAbstract, abstractRef] = useState("99");
   const [id, setId, idRef] = useState("99");
 
   useEffect(() => {
@@ -147,8 +151,14 @@ export default function Entradas() {
   const handleChangeTexto = (event) => {
     setTexto(event.target.value);
   };
-const enviarCambios = (event) => {
-    var datos={titulo:titulo, autor:autor, texto:texto, id:id}
+  const handleChangeTweet = (event) => {
+    setTweet(event.target.value);
+  };
+  const handleChangeAbstract = (event) => {
+    setAbstract(event.target.value);
+  };
+  const enviarCambios = (event) => {
+    var datos = { titulo: titulo, autor: autor, texto: texto, id: id, abstract:abstract, tweet:tweet }
 
     console.log(datos)
     api.editarPost(datos).then(respuesta => {
@@ -164,13 +174,17 @@ const enviarCambios = (event) => {
   };
 
 
-  function editPost(id){
+  function editPost(id) {
+
+    let obj = entradas.find(o => o.id === id);
     setOpen(true);
     setId(id)
-    setTitulo(entradas[id-1].titulo)
-    setAutor(entradas[id-1].autor)
-    setTexto(entradas[id-1].text)
-    console.log(entradas[id-1])
+    setTitulo(obj.titulo)
+    setAutor(obj.autor)
+    setTexto(obj.text)
+    setAbstract(obj.abstract)
+    setTweet(obj.tweet)
+    console.log(obj)
   }
 
 
@@ -183,61 +197,61 @@ const enviarCambios = (event) => {
   };
   return (
     <>
-    <Container className={classes.root}>
+      <Container className={classes.root}>
 
-      <TableContainer component={Paper}>
-        <Table stickyHeader className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Fecha</TableCell>
-              <TableCell align="center">Autor</TableCell>
-              <TableCell align="center">Título</TableCell>
-              <TableCell align="center">Accion</TableCell>
-              <TableCell align="center">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          {entradas ?
+        <TableContainer component={Paper}>
+          <Table stickyHeader className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">Fecha</TableCell>
+                <TableCell align="center">Autor</TableCell>
+                <TableCell align="center">Título</TableCell>
+                <TableCell align="center">Accion</TableCell>
+                <TableCell align="center">Status</TableCell>
+              </TableRow>
+            </TableHead>
+            {entradas ?
 
-            <TableBody>
-              {entradas.map(row => (
+              <TableBody>
+                {entradas.map(row => (
 
-                <TableRow key={row.id}>
-                  <TableCell align="center">{new Date(row.createdAt).getFullYear() + "-" + (parseInt(new Date(row.createdAt).getMonth()) + 1) + "-" + new Date(row.createdAt).getDate() + " " + new Date(row.createdAt).getHours() + ":" + new Date(row.createdAt).getMinutes() + ":" + new Date(row.createdAt).getSeconds()}</TableCell>
-                  <TableCell align="center">{row.titulo}</TableCell>
-                  <TableCell align="center">{row.autor}</TableCell>
-                  <TableCell align="center">
-                    <IconButton
-                      onClick={() => { editPost(row.id)}}
-                      aria-label="delete"
-                      size="small">
-                      <EditIcon fontSize="inherit" />
-                    </IconButton></TableCell>
-                  <TableCell align="center">
-                    Ocultar
+                  <TableRow key={row.id}>
+                    <TableCell align="center">{new Date(row.createdAt).getFullYear() + "-" + (parseInt(new Date(row.createdAt).getMonth()) + 1) + "-" + new Date(row.createdAt).getDate() + " " + new Date(row.createdAt).getHours() + ":" + new Date(row.createdAt).getMinutes() + ":" + new Date(row.createdAt).getSeconds()}</TableCell>
+                    <TableCell align="center">{row.titulo}</TableCell>
+                    <TableCell align="center">{row.autor}</TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        onClick={() => { editPost(row.id) }}
+                        aria-label="delete"
+                        size="small">
+                        <EditIcon fontSize="inherit" />
+                      </IconButton></TableCell>
+                    <TableCell align="center">
+                      Ocultar
                     <Switch
-                      checked={row.status}
-                      onChange={handleChange}
-                      color="primary"
-                      name="checkedB"
-                      id={row.id}
-                      inputProps={{ 'aria-label': 'primary checkbox' }}
-                    />
+                        checked={row.status}
+                        onChange={handleChange}
+                        color="primary"
+                        name="checkedB"
+                        id={row.id}
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                      />
                     Mostrar
 
 
                   </TableCell>
-                </TableRow>
-              ))}
-            </TableBody> : console.log("SI")}
+                  </TableRow>
+                ))}
+              </TableBody> : console.log("SI")}
 
-        </Table>
-      </TableContainer>
+          </Table>
+        </TableContainer>
 
 
-    </Container>
-    
-    {/* MODAL  */}
-    <Modal
+      </Container>
+
+      {/* MODAL  */}
+      <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
@@ -253,81 +267,121 @@ const enviarCambios = (event) => {
           <div className={classes.paper}>
             <h2 id="transition-modal-title">Editar</h2>
             <TextField
-            value={autor}
-            onChange={handleChangeAutor}
-            // error={errorAutor}
-            // helperText="Introducir Nombre"
-            size="small"
-            variant="outlined"
-            margin="normal"
-            // {...register('autor')}
-            required
-            fullWidth
-            id="autor"
-            label="Autor"
-            name="setAutor"
-            type="text"
-          // autoComplete="email"
-          // autoFocus
-          />
-          <TextField
-          value={titulo}
-          onChange={handleChangeTitulo}
-            // error={errorTitulo}
-            // helperText="Introducir Apellido Paterno"
-            size="small"
-            variant="outlined"
-            margin="normal"
-            // {...register('titulo')}
-            required
-            fullWidth
-            id="titulo"
-            label="Título"
-            name="titulo"
-            type="text"
-          // autoComplete="email"
-          // autoFocus
-          />
-          <TextField
-          value={texto}
-          onChange={handleChangeTexto}
-            // error={erroTexto}
-            // helperText="Introducir Apellido Materno"
-            size="small"
-            variant="outlined"
-            margin="normal"
-            // {...register('texto')}
-            required
-            fullWidth
-            id="texto"
-            label="Texto"
-            name="texto"
-            type="text"
-            multiline
-            rows={10}
-          // autoComplete="email"
-          // autoFocus
-          />
-         
+              value={autor}
+              onChange={handleChangeAutor}
+              // error={errorAutor}
+              // helperText="Introducir Nombre"
+              size="small"
+              variant="outlined"
+              margin="normal"
+              // {...register('autor')}
+              required
+              fullWidth
+              id="autor"
+              label="Autor"
+              name="setAutor"
+              type="text"
+            // autoComplete="email"
+            // autoFocus
+            />
+            <TextField
+              value={titulo}
+              onChange={handleChangeTitulo}
+              // error={errorTitulo}
+              // helperText="Introducir Apellido Paterno"
+              size="small"
+              variant="outlined"
+              margin="normal"
+              // {...register('titulo')}
+              required
+              fullWidth
+              id="titulo"
+              label="Título"
+              name="titulo"
+              type="text"
+            // autoComplete="email"
+            // autoFocus
+            />
+            <TextField
+              value={texto}
+              onChange={handleChangeTexto}
+              // error={erroTexto}
+              // helperText="Introducir Apellido Materno"
+              size="small"
+              variant="outlined"
+              margin="normal"
+              // {...register('texto')}
+              required
+              fullWidth
+              id="texto"
+              label="Texto"
+              name="texto"
+              type="text"
+              multiline
+              rows={10}
+            // autoComplete="email"
+            // autoFocus
+            />
+            <TextField
+              value={tweet}
+              onChange={handleChangeTweet}
+              // error={erroTexto}
+              // helperText="Introducir Apellido Materno"
+              size="small"
+              variant="outlined"
+              margin="normal"
+              // {...register('texto')}
+              required
+              fullWidth
+              id="tweet"
+              label="Tweet"
+              name="tweet"
+              type="text"
+              multiline
+              rows={3}
+            // autoComplete="email"
+            // autoFocus
+            />
+                        <TextField
+              value={abstract}
+              onChange={handleChangeAbstract}
+              // error={erroTexto}
+              // helperText="Introducir Apellido Materno"
+              size="small"
+              variant="outlined"
+              margin="normal"
+              // {...register('texto')}
+              required
+              fullWidth
+              id="abstract"
+              label="Abstract"
+              name="abstract"
+              type="teabstractxt"
+              multiline
+              rows={4}
+            // autoComplete="email"
+            // autoFocus
+            />
 
-          <Button
-            // type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={enviarCambios}
-          >
-            Enviar
+
+            <Button
+              // type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={enviarCambios}
+            >
+              Enviar
           </Button>
-          <Button
-            // type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Cancelar
+            <Button
+              // type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Cancelar
           </Button>
 
           </div>

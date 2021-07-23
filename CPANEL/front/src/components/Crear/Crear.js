@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '5px',
     paddingBottom: '10px',
     zIndex: 5,
-  },  backdrop: {
+  }, backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
@@ -59,12 +59,12 @@ const useStyles = makeStyles((theme) => ({
   input: {
     display: "none"
   },
-  fab:{
+  fab: {
     // width: "50%",
     // margin: "auto",
     // display:"block",
     "margin-left": "auto",
-   "margin-right":"auto"
+    "margin-right": "auto"
   }
 }));
 
@@ -91,6 +91,8 @@ export default function Crear() {
   const [errorAutor, setErrorAutor, errorAutorRef] = useState(false)
   const [errorTitulo, setErrorTitulo, errorTituloRef] = useState(false)
   const [erroTexto, setErrorTexto, errorTextoRef] = useState(false)
+  const [errorAbstract, setErrorAbstract, errorAbstractRef] = useState(false)
+  const [errorTweet, setErrorTweet, errorTweetRef] = useState(false)
 
   const [open, setOpen, openRef] = useState(false);
   const [openEmpleado, setOpenEmpleado, openEmpleadoRef] = useState(false);
@@ -147,8 +149,16 @@ export default function Crear() {
       setErrorTexto(true)
       // problemas=true;
     }
+    if (data.abstract === undefined || data.abstract.trim() === '') {
+      setErrorAbstract(true)
+      // problemas=true;
+    }
+    if (data.tweet === undefined || data.tweet.trim() === '') {
+      setErrorTweet(true)
+      // problemas=true;
+    }
 
-    if (errorTextoRef.current || errorTituloRef.current || errorAutorRef.current) {
+    if (errorTextoRef.current || errorTituloRef.current || errorAutorRef.current || errorTweetRef.current || errorAbstractRef.current) {
       console.log("ERROR")
       // alert("Faltan Campos(En Rojo)")
       setOpenCampos(true)
@@ -166,34 +176,34 @@ export default function Crear() {
   // function enviarFormulario(data) {
   //   console.log(data)
   //   registrar(data)
-    // setOpen(true)
-    // api.buscarTelefono(data.telefono)
-    //   .then(respuesta => {
-    //     if (respuesta.data.status === "EXITO") {
-    //       // localStorage.setItem('user',respuesta.data.password)
-    //       setOpen(false)
-    //       setOpenTelefono(true)
-    //       setErrorTelefono(true)
-    //       // alert("Telefono ya registrado con otro usuario")
-    //     } else {
-    //       api.buscarNoEmpleado(data.no_emp)
-    //         .then(respuesta2 => {
-    //           if (respuesta2.data.status === "EXITO") {
-    //             // localStorage.setItem('user',respuesta.data.password)
-    //             // alert("No Empleado ya registrado")
-    //             setOpen(false)
-    //             setOpenEmpleado(true)
-    //             setErrorNoEmp (true)
-    //           } else {
-    //             console.log("CORRECTO")
-    //             registrar(data)
-    //             // window.location.href = '/'
-    //           }
-    //           // console.log(respuesta);
-    //         })
-    //     }
-    //     // console.log(respuesta);
-    //   })
+  // setOpen(true)
+  // api.buscarTelefono(data.telefono)
+  //   .then(respuesta => {
+  //     if (respuesta.data.status === "EXITO") {
+  //       // localStorage.setItem('user',respuesta.data.password)
+  //       setOpen(false)
+  //       setOpenTelefono(true)
+  //       setErrorTelefono(true)
+  //       // alert("Telefono ya registrado con otro usuario")
+  //     } else {
+  //       api.buscarNoEmpleado(data.no_emp)
+  //         .then(respuesta2 => {
+  //           if (respuesta2.data.status === "EXITO") {
+  //             // localStorage.setItem('user',respuesta.data.password)
+  //             // alert("No Empleado ya registrado")
+  //             setOpen(false)
+  //             setOpenEmpleado(true)
+  //             setErrorNoEmp (true)
+  //           } else {
+  //             console.log("CORRECTO")
+  //             registrar(data)
+  //             // window.location.href = '/'
+  //           }
+  //           // console.log(respuesta);
+  //         })
+  //     }
+  //     // console.log(respuesta);
+  //   })
 
 
   // }
@@ -226,7 +236,9 @@ export default function Crear() {
     api.registrar({
       autor: data.autor,
       titulo: data.titulo,
-      texto: data.texto
+      texto: data.texto,
+      abstract: data.abstract,
+      tweet: data.tweet
     }).then(respuesta2 => {
       console.log(respuesta2)
     });
@@ -254,18 +266,19 @@ export default function Crear() {
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
-    }}
+    }
+  }
   return (
     <Container className="containerInfo">
 
-       <Backdrop className={classes.backdrop} open={open}>
+      <Backdrop className={classes.backdrop} open={open}>
         <CircularProgress color="inherit" />
       </Backdrop>
 
       <Container>
-      
+
         <form className={classes.form} noValidate onSubmit={handleSubmit((data) => revisa(data))}>
-       
+
           <TextField
             error={errorAutor}
             // helperText="Introducir Nombre"
@@ -316,7 +329,45 @@ export default function Crear() {
           // autoComplete="email"
           // autoFocus
           />
-         
+
+          <TextField
+            error={errorAbstract}
+            // helperText="Introducir Apellido Materno"
+            size="small"
+            variant="outlined"
+            margin="normal"
+            {...register('abstract')}
+            required
+            fullWidth
+            id="abstract"
+            label="Abstract"
+            name="abstract"
+            type="text"
+            multiline
+            rows={3}
+          // autoComplete="email"
+          // autoFocus
+          />
+          
+          <TextField
+            error={errorTweet}
+            // helperText="Introducir Apellido Materno"
+            size="small"
+            variant="outlined"
+            margin="normal"
+            {...register('tweet')}
+            required
+            fullWidth
+            id="tweet"
+            label="Tweet"
+            name="tweet"
+            type="text"
+            multiline
+            rows={2}
+          // autoComplete="email"
+          // autoFocus
+          />
+
 
           <Button
             type="submit"
@@ -336,38 +387,38 @@ export default function Crear() {
       </Container>
 
       <div className={classes.root}>
-      {/* <Button variant="outlined" onClick={handleClick}>
+        {/* <Button variant="outlined" onClick={handleClick}>
         Open success snackbar
       </Button> */}
-      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openTelefono} autoHideDuration={4000} onClose={handleCloseSnack}>
-        <Alert onClose={handleClose} severity="error">
-          Teléfono ya registrado en sistema
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openTelefono} autoHideDuration={4000} onClose={handleCloseSnack}>
+          <Alert onClose={handleClose} severity="error">
+            Teléfono ya registrado en sistema
         </Alert>
-      </Snackbar>
+        </Snackbar>
 
-    </div>
-    <div className={classes.root}>
-      {/* <Button variant="outlined" onClick={handleClick}>
+      </div>
+      <div className={classes.root}>
+        {/* <Button variant="outlined" onClick={handleClick}>
         Open success snackbar
       </Button> */}
-      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openEmpleado} autoHideDuration={4000} onClose={handleCloseSnack}>
-        <Alert onClose={handleClose} severity="error">
-          Número de Empleado ya registrado en sistema
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openEmpleado} autoHideDuration={4000} onClose={handleCloseSnack}>
+          <Alert onClose={handleClose} severity="error">
+            Número de Empleado ya registrado en sistema
         </Alert>
-      </Snackbar>
+        </Snackbar>
 
-    </div>
-    <div className={classes.root}>
-      {/* <Button variant="outlined" onClick={handleClick}>
+      </div>
+      <div className={classes.root}>
+        {/* <Button variant="outlined" onClick={handleClick}>
         Open success snackbar
       </Button> */}
-      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openCampos} autoHideDuration={4000} onClose={handleCloseSnack}>
-        <Alert onClose={handleClose} severity="error">
-          Faltan Campos
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openCampos} autoHideDuration={4000} onClose={handleCloseSnack}>
+          <Alert onClose={handleClose} severity="error">
+            Faltan Campos
         </Alert>
-      </Snackbar>
+        </Snackbar>
 
-    </div>
+      </div>
 
 
     </Container>

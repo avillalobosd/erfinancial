@@ -51,21 +51,21 @@ export default function Login() {
 
   // SE EJECUTA AL INICIARSE LA PAGINA 
   useEffect(() => {
-    api.buscarTelefono("000")
-    .then(respuesta => {
-    console.log("ARRANCAR-API")
-    })
+    // api.buscarTelefono("000")
+    // .then(respuesta => {
+    // console.log("ARRANCAR-API")
+    // })
 
-    api.buscarPass(localStorage.getItem('user'))
-    .then(respuesta => {
-      if(respuesta.data.status==="EXITO"){
-        // localStorage.setItem('user',respuesta.data.password)
-        window.location.href='#registrar'
-      }else{
-        localStorage.setItem('user','NO')
-      }
-        console.log(respuesta);
-    })
+    // api.buscarPass(localStorage.getItem('user'))
+    // .then(respuesta => {
+    //   if(respuesta.data.status==="EXITO"){
+    //     // localStorage.setItem('user',respuesta.data.password)
+    //     window.location.href='#registrar'
+    //   }else{
+    //     localStorage.setItem('user','NO')
+    //   }
+    //     console.log(respuesta);
+    // })
   },[usuario]);
 
 
