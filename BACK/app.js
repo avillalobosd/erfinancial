@@ -32,14 +32,43 @@ app.use(express.static(__dirname+'public'));
 // var publicDir = require('path').join(__dirname,'/public'); 
 // app.use(express.static(publicDir)); 
 
+app.put("/ERapi/foto", (request, res) => {
+  if (request.files === null) {
+    return res.json({ msg: 'No file uploaded' });
+  }
 
+  const file = request.files.file;
+
+  file.mv(`${__dirname}/public/uploads/${file.name}`, err => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send(err);
+    }
+
+    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+  });
+});
 // Rutas
 app.get('/', function (req, res) {
     console.log("DENTRO")
     res.json("si");
 });
 
+// RETORNA TODOS LOS POSTS ACTIVOS
+app.get('/ERapi/muestraActivos', function (req, res) {
+  BD.findAll({  where: {
+    status: true
+  },
+    order: [
+      ['createdAt', 'DESC'],
+      // ['name', 'ASC'],
+  ]
+  }).then(users => {
+    res.json(users);
+  });
+});
 
+// RETORNA TODOS LOS POSTS 
 app.get('/ERapi/muestra', function (req, res) {
   BD.findAll({
     order: [
@@ -52,12 +81,14 @@ app.get('/ERapi/muestra', function (req, res) {
 });
 
 app.put("/ERapi/registrar", (request, res) => {
+  console.log(request.body.imagen)
   BD.create({
     titulo: request.body.titulo,
     autor: request.body.autor,
     text: request.body.texto,
     tweet: request.body.tweet,
-    abstract: request.body.abstract
+    abstract: request.body.abstract,
+    imagen:request.body.imagen
 
   }).then(data => {
     res.json({
