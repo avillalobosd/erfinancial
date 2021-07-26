@@ -32,7 +32,7 @@ import imagen2 from './imagen2.jpg';
 import imagen3 from './imagen3.jpg';
 import background from './background.jpg';
 // COMPONENTS  
-import Noticia from '../../Components/Noticia/Noticia'
+import NoticiaCompleta from '../../Components/NoticiaCompleta/NoticiaCompleta'
 import Entrada from '../../Components/Entrada/Entrada'
 
 
@@ -140,10 +140,12 @@ export default function NoticiasMiddle(props) {
   const classes = useStyles();
   const [entradas, setEntradas, entradasRef] = useState([])
   const [noticias, setNoticia, noticiasRef] = useState([])
+  const [id, setId, idRef] = useState("");
   const [titulo, setTitulo, tituloRef] = useState("78");
-  const [autor, setAutor, autorRef] = useState("65");
+  const [autor, setAutor, autorRef] = useState("00");
   const [texto, setTexto, textoRef] = useState("99");
   const [fecha, setFecha, fechaRef] = useState("99");
+  const [imagen, setImagen, imagenRef] = useState("99");
   const [tweet, setTweet, tweetRef] = useState("99");
   const [abstract, setAbstract, abstractRef] = useState("99");
 
@@ -154,12 +156,13 @@ export default function NoticiasMiddle(props) {
         let data=respuesta.data
         console.log(data)
         // let ok=respuesta.data
-        setEntradas(data)
+        
         // console.log(entradasRef.current)
         let obj = data.find(o => o.id === parseInt(props.noticia));
         console.log(obj)
         // // setOpen(true);
-        // // setId(id)
+        setId(obj.id)
+        setImagen(obj.imagen)
         setFecha(obj.createdAt)
         setTitulo(obj.titulo)
         setAutor(obj.autor)
@@ -167,10 +170,14 @@ export default function NoticiasMiddle(props) {
         setAbstract(obj.abstract)
         setTweet(obj.tweet)
         // console.log(obj)
+        window.scrollTo(0, 400)
+        let arreglo = data.filter(function(i) { return i.id !== parseInt(props.noticia) }); // filtramos
+        setEntradas(arreglo)
+console.log( arreglo );
       })
 
     
-  }, []);
+  }, [props.noticia]);
 
 
   return (
@@ -180,7 +187,7 @@ export default function NoticiasMiddle(props) {
 
       {/* NOTICIAS PRINCIPALES  */}
       {/* NOTICIA 1  */}
-      {autor!="65" ? <Noticia fecha={fecha} titulo={titulo} abastract={texto} autor={autor}/> :"0"} 
+      {autor!="00" ? <NoticiaCompleta imagen={imagen} fecha={fecha} titulo={tituloRef.current} abastract={texto} autor={autor} noticia={0}/> :""} 
       
      
      
@@ -222,19 +229,14 @@ export default function NoticiasMiddle(props) {
         style={{ marginTop: "20px" }}
       >
         {/* NOTICIA 1  */}
-
-        {entradas[2] ? <Entrada  fecha={entradas[2].createdAt} titulo={entradas[2].titulo} abastract={entradas[2].abstract} autor={entradas[2].autor}/> :" "} 
-        {entradas[3] ? <Entrada  fecha={entradas[3].createdAt} titulo={entradas[3].titulo} abastract={entradas[3].abstract} autor={entradas[3].autor}/> :" "} 
-        {entradas[4] ? <Entrada  fecha={entradas[4].createdAt} titulo={entradas[4].titulo} abastract={entradas[4].abstract} autor={entradas[4].autor}/> :" "} 
-
-
-
-
-
-
-
-
-
+        {entradas[0] ? <Entrada  imagen={entradas[0].imagen}  id={entradas[0].id} fecha={entradas[0].createdAt} titulo={entradas[0].titulo} abastract={entradas[0].abstract} autor={entradas[0].autor}/> :" "}
+        {entradas[1] ? <Entrada  imagen={entradas[1].imagen}  id={entradas[1].id} fecha={entradas[1].createdAt} titulo={entradas[1].titulo} abastract={entradas[1].abstract} autor={entradas[1].autor}/> :" "}
+        {entradas[2] ? <Entrada  imagen={entradas[2].imagen} id={entradas[2].id} fecha={entradas[2].createdAt} titulo={entradas[2].titulo} abastract={entradas[2].abstract} autor={entradas[2].autor}/> :" "} 
+        {entradas[3] ? <Entrada  imagen={entradas[3].imagen} id={entradas[3].id} fecha={entradas[3].createdAt} titulo={entradas[3].titulo} abastract={entradas[3].abstract} autor={entradas[3].autor}/> :" "} 
+        {entradas[4] ? <Entrada imagen={entradas[4].imagen}  id={entradas[4].id} fecha={entradas[4].createdAt} titulo={entradas[4].titulo} abastract={entradas[4].abstract} autor={entradas[4].autor}/> :" "} 
+        {entradas[5] ? <Entrada  imagen={entradas[5].imagen}  id={entradas[5].id} fecha={entradas[5].createdAt} titulo={entradas[5].titulo} abastract={entradas[5].abstract} autor={entradas[5].autor}/> :" "}
+        {entradas[6] ? <Entrada  imagen={entradas[6].imagen}  id={entradas[6].id} fecha={entradas[6].createdAt} titulo={entradas[6].titulo} abastract={entradas[6].abstract} autor={entradas[6].autor}/> :" "}
+        {entradas[7] ? <Entrada  imagen={entradas[7].imagen}  id={entradas[7].id} fecha={entradas[7].createdAt} titulo={entradas[7].titulo} abastract={entradas[7].abstract} autor={entradas[7].autor}/> :" "}
 
       </Grid>
       {/* <Divider > Últimas Entradas</Divider> */}

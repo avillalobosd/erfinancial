@@ -156,8 +156,8 @@ export default function BlogMiddle() {
 
       {/* NOTICIAS PRINCIPALES  */}
       {/* NOTICIA 1  */}
-      {entradas[0] ? <Noticia fecha={entradas[0].createdAt} titulo={entradas[0].titulo} abastract={entradas[0].abstract} autor={entradas[0].autor}/> :"0"} 
-      {entradas[1] ? <Noticia  fecha={entradas[1].createdAt} titulo={entradas[1].titulo} abastract={entradas[1].abstract} autor={entradas[1].autor}/> :"0"} 
+      {entradas[0] ? <Noticia imagen={entradas[0].imagen} id={entradas[0].id} fecha={entradas[0].createdAt} titulo={entradas[0].titulo} abastract={entradas[0].abstract} autor={entradas[0].autor}/> :"0"} 
+      {entradas[1] ? <Noticia imagen={entradas[1].imagen} id={entradas[1].id} fecha={entradas[1].createdAt} titulo={entradas[1].titulo} abastract={entradas[1].abstract} autor={entradas[1].autor}/> :"0"} 
      
      
 
@@ -199,9 +199,9 @@ export default function BlogMiddle() {
       >
         {/* NOTICIA 1  */}
 
-        {entradas[2] ? <Entrada  fecha={entradas[2].createdAt} titulo={entradas[2].titulo} abastract={entradas[2].abstract} autor={entradas[2].autor}/> :" "} 
-        {entradas[3] ? <Entrada  fecha={entradas[3].createdAt} titulo={entradas[3].titulo} abastract={entradas[3].abstract} autor={entradas[3].autor}/> :" "} 
-        {entradas[4] ? <Entrada  fecha={entradas[4].createdAt} titulo={entradas[4].titulo} abastract={entradas[4].abstract} autor={entradas[4].autor}/> :" "} 
+        {entradas[2] ? <Entrada  imagen={entradas[2].imagen} id={entradas[2].id} fecha={entradas[2].createdAt} titulo={entradas[2].titulo} abastract={entradas[2].abstract} autor={entradas[2].autor}/> :" "} 
+        {entradas[3] ? <Entrada   imagen={entradas[3].imagen} id={entradas[3].id}fecha={entradas[3].createdAt} titulo={entradas[3].titulo} abastract={entradas[3].abstract} autor={entradas[3].autor}/> :" "} 
+        {entradas[4] ? <Entrada imagen={entradas[4].imagen} id={entradas[4].id} fecha={entradas[4].createdAt} titulo={entradas[4].titulo} abastract={entradas[4].abstract} autor={entradas[4].autor}/> :" "} 
 
 
 

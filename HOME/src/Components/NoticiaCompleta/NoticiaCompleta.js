@@ -1,14 +1,26 @@
 import React from 'react'
 import {
+    Hidden,
+    Toolbar,
+    AppBar,
     Box,
+    Typography,
+    Button,
+    IconButton,
+    Menu,
+    Divider,
+    MenuItem,
+    Fade,
     Grid,
-    Link
+    Paper
   } from "@material-ui/core";
 
   import { makeStyles } from '@material-ui/core/styles';
-
+  import { createTheme, responsiveFontSizes,ThemeProvider  } from '@material-ui/core/styles';
   import imagen1 from './imagen1.svg';
 
+  let theme = createTheme();
+  theme = responsiveFontSizes(theme);
   const useStyles = makeStyles((theme) => ({
      fecha: {
       fontSize: 22,
@@ -17,8 +29,8 @@ import {
       textAlign: "left",
       fontFamily: "Bebas Neue, Sans-serif"
     }, paperImage: {
-      // width:"30vw",
-      height: "400px",
+      maxWidth:"200px",
+      // height: "400px",
       // marginTop: "80px",
       padding: theme.spacing(2),
       textAlign: 'center',
@@ -47,9 +59,9 @@ import {
       fontFamily: "Bebas Neue, Sans-serif",
       marginTop: "10px"
     }, imagen: {
-      // width:"30vw",
-      height: "100%",
-      // width: "100%",
+      maxWidth:"85vw",
+      // height: "auto",
+      width: "auto",
       border: "solid"
       // ENTRADAS 
     }
@@ -58,20 +70,18 @@ import {
   
   export default function Noticias(props) {
     const classes = useStyles();
-    const url="#/noticias/"+props.id
-return <div>
+return <>
 
 <Grid container
         spacing={0}
         direction="column"
         alignItems="center"
         justify="center"
-        style={{ width:"2000px",marginTop: "50px" }}
-        
+        style={{ marginTop: "50px" }}
       >
 
 
-        <Grid item xs={7}>
+        <Grid item m={7}>
           <Box className={classes.fecha}> {new Date(props.fecha).getFullYear() + "-" + (parseInt(new Date(props.fecha).getMonth()) + 1) + "-" + new Date(props.fecha).getDate() + " " + new Date(props.fecha).getHours() + ":" + new Date(props.fecha).getMinutes() + ":" + new Date(props.fecha).getSeconds()}
           </Box>
           <Box className={classes.paperTitle}> {props.titulo}
@@ -79,19 +89,19 @@ return <div>
           <Box className={classes.fecha}> {props.autor}
           </Box>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={11} sm={9} md={7} xl={7}>
           <Box className={classes.paperImage}>
             <img className={classes.imagen} alt="ok" src={props.imagen}></img>
           </Box>
-          <Box className={classes.paperAbstract}> {props.abastract}
+          <ThemeProvider theme={theme}>
+          <Box style={{whiteSpace: 'pre-wrap'}}className={classes.paperAbstract}>{props.abastract}
           </Box>
-         
-         <Link href={url} >
-         <Box className={classes.leerMas}> Leer Más -></Box> 
-  </Link>
+          </ThemeProvider>
+         {/* <Box className={classes.leerMas}> Leer Más -></Box>  */}
+          
           
         </Grid>
       </Grid>
-</div>
+</>
   }
 // export default Noticia

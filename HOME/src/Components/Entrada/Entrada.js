@@ -1,18 +1,8 @@
 import React from 'react'
 import {
-    Hidden,
-    Toolbar,
-    AppBar,
     Box,
-    Typography,
-    Button,
-    IconButton,
-    Menu,
-    Divider,
-    MenuItem,
-    Fade,
     Grid,
-    Paper
+    Link
   } from "@material-ui/core";
 
   import { makeStyles } from '@material-ui/core/styles';
@@ -120,13 +110,14 @@ import {
   
   export default function Entrada(props) {
     const classes = useStyles();
+    const url="#/noticias/"+props.id
 return <>
 
 <Grid className={classes.ultimasEntradas} item sm={2}>
         </Grid>
         <Grid className={classes.ultimasEntradas} item sm={4}>
           <Box className={classes.paperImageEntradas}>
-            <img className={classes.imagenEntradas} alt="ok" src={imagen1}></img>
+            <img className={classes.imagenEntradas} alt="ok" src={props.imagen}></img>
           </Box>
 
         </Grid>
@@ -138,8 +129,9 @@ return <>
           </Box>
           <Box className={classes.fechaEntradas}> {props.autor}
           </Box>
-          <Box className={classes.leerMasEntradas}> Leer Más ->
-          </Box>
+          <Link href={url} >
+         <Box className={classes.leerMas}> Leer Más -></Box> 
+  </Link>
         </Grid>
         <Grid className={classes.ultimasEntradas} item sm={2}>
         </Grid>

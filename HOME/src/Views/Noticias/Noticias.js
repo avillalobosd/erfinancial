@@ -21,15 +21,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Noticias() {
+  const [id, setId] = useState(useParams().cadena);
   let { cadena } = useParams();
-  console.log(cadena)
-  const classes = useStyles();
+ 
+  useEffect(() => {
+    setId(cadena)
+  }, [cadena]);
+  // setId(cadena)
+  // console.log(cadena)
+  
 
 
   return (
     <>
     <BlogTop/>
-    <NoticiasMiddle noticia={cadena}/>
+    <div><NoticiasMiddle noticia={id}/></div>
+    
     {/* <HomeBottom/> */}
     </>
 
