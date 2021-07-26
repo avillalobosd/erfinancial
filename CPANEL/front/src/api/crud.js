@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
 // const API_URL = 'https://api.pontechucho.com/chuchoapi';
-const API_URL = 'http://localhost:4000/ERapi';
+const API_URL = 'https://apierf.abecode.com/ERapi';
 
 export default {
 
@@ -33,13 +33,13 @@ export default {
     editarPost: function (datos) {
         return axios.put(API_URL + "/editarPost", datos)
     },
-    // subirFoto: function (datos) {
-    //     return axios.put(API_URL + "/foto", datos,{
-    //         headers: {
-    //           'Content-Type': 'multipart/form-data'
-    //         }
-    //       });
-    // },
+    subirFoto: function (datos) {
+        return axios.put(API_URL + "/foto", datos,{
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+    }
     // // ACTUALIZA INDICANDO QUE YA CUENTA CON HIJOS 
     // hijos: function (id) {
     //     return axios.get(API_URL + "/hijos/" + id);

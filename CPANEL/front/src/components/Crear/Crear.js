@@ -18,6 +18,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { CenterFocusStrongSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +77,7 @@ export default function Crear() {
   let { slug } = useParams();
   console.log(slug)
   const classes = useStyles();
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, reset } = useForm()
   const [state, setState] = React.useState({
     nivel: '',
     activojubilado: '',
@@ -99,6 +100,17 @@ export default function Crear() {
   const [openTelefono, setOpenTelefono, OpenTelefonoRef] = useState(false);
   const [openCampos, setOpenCampos, openCamposRef] = useState(false);
 
+
+  const fileHandler = event => {
+    const { files } = event.target;
+            setfotoEnviar(files[0])
+            var src= URL.createObjectURL(files[0])
+            var alt= files[0].name
+            setNombreArchivo(files[0].name)
+            console.log(src)
+            console.log(alt)
+            setFotoSubida(src)
+  };
   // useEffect(() => { console.log("errorNoEmp data changed") }, [errorNoEmp])
 
   // useEffect(() => {
@@ -208,42 +220,48 @@ export default function Crear() {
 
   // }
 
-  // function randomString(len, charSet) {
-  //   charSet = charSet || '0123456789';
-  //   var randomString = '';
-  //   for (var i = 0; i < len; i++) {
-  //     var randomPoz = Math.floor(Math.random() * charSet.length);
-  //     randomString += charSet.substring(randomPoz, randomPoz + 1);
-  //   }
-  //   return randomString;
-  // }
+  function randomString(len, charSet) {
+    charSet = charSet || '0123456789';
+    var randomString = '';
+    for (var i = 0; i < len; i++) {
+      var randomPoz = Math.floor(Math.random() * charSet.length);
+      randomString += charSet.substring(randomPoz, randomPoz + 1);
+    }
+    return randomString;
+  }
 
 
   function registrar(data) {
-    // let cadenaF = randomString(10)
-    // setNombreArchivo(cadenaF)
-    // let fotog = "https://api.pontechucho.com/public/uploads/id.jpg"
-    // const formData = new FormData();
-    // if (nombreArchivo === "") {
-    //   console.log("NO HAY FOTO")
-    // } else {
-    //   formData.append('file', fotoEnviarRef.current, cadenaF + ".jpg");
-    //   fotog = "https://api.pontechucho.com/public/uploads/" + nombreArchivoRef.current + '.jpg'
-    //   console.log(data.foto[0])
-    // }
+    let cadenaF = randomString(10)
+    setNombreArchivo(cadenaF)
+    let fotog = "https://api.pontechucho.com/public/uploads/id.jpg"
+    const formData = new FormData();
+    if (nombreArchivo === "") {
+      console.log("NO HAY FOTO")
+    } else {
+      formData.append('file', fotoEnviarRef.current, cadenaF + ".jpg");
+      fotog = "https://apierf.abecode.com/public/uploads/" + nombreArchivoRef.current + '.jpg'
+      console.log(data.foto[0])
+    }
     // e.preventDefault();
-
+    api.subirFoto(formData).then(respuesta => {
+    console.log(respuesta)
     api.registrar({
       autor: data.autor,
       titulo: data.titulo,
       texto: data.texto,
       abstract: data.abstract,
-      tweet: data.tweet
+      tweet: data.tweet,
+      imagen:fotog
     }).then(respuesta2 => {
       console.log(respuesta2)
+      window.location.reload()
+      // setValue({register: '})
     });
 
-  }
+  })
+
+}
 
 
   // };
@@ -348,7 +366,7 @@ export default function Crear() {
           // autoComplete="email"
           // autoFocus
           />
-          
+
           <TextField
             error={errorTweet}
             // helperText="Introducir Apellido Materno"
@@ -367,6 +385,25 @@ export default function Crear() {
           // autoComplete="email"
           // autoFocus
           />
+
+          <input
+            type="file"
+            {...register('foto')}
+            name="foto"
+            id="foto"
+            label="foto"
+            className={classes.input}
+            accept="image/*"
+            onChange={fileHandler}
+          />
+          <label htmlFor="foto">
+
+            <Fab className={classes.fab} variant="extended" component="span">
+              <AddPhotoAlternateIcon />Foto
+            </Fab>
+          </label>
+          <br></br>
+          {fotoSubida == "" ? <div></div> : <img className={classes.aguila} alt="chucho" src={fotoSubida}></img>}
 
 
           <Button
@@ -393,7 +430,7 @@ export default function Crear() {
         <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openTelefono} autoHideDuration={4000} onClose={handleCloseSnack}>
           <Alert onClose={handleClose} severity="error">
             Teléfono ya registrado en sistema
-        </Alert>
+          </Alert>
         </Snackbar>
 
       </div>
@@ -404,7 +441,7 @@ export default function Crear() {
         <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openEmpleado} autoHideDuration={4000} onClose={handleCloseSnack}>
           <Alert onClose={handleClose} severity="error">
             Número de Empleado ya registrado en sistema
-        </Alert>
+          </Alert>
         </Snackbar>
 
       </div>
@@ -415,7 +452,7 @@ export default function Crear() {
         <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openCampos} autoHideDuration={4000} onClose={handleCloseSnack}>
           <Alert onClose={handleClose} severity="error">
             Faltan Campos
-        </Alert>
+          </Alert>
         </Snackbar>
 
       </div>
